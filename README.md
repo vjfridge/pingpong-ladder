@@ -1,2 +1,2 @@
-# first-MERN-app
-My first web application using MERN stack
+# pingpong-ladder
+A pingpong ladder tournament app using the MERN stack.
