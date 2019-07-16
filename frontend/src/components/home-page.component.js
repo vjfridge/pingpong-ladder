@@ -2,28 +2,24 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const Todo = props => (
+const Player = props => (
     <tr>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_responsible}</td>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
-        <td>
-            <Link to={'/edit/'+props.todo._id}>Edit</Link>
-        </td>
+        <td>{props.player.todo_description}</td>
+        <td>{props.player.todo_responsible}</td>
     </tr>
 )
 
-export default class TodosList extends Component {
+export default class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: []};
+        this.state = {players: []};
     }
 
     componentDidMount() {
         axios.get('http://localhost:4000/todos/')
             .then(response => {
-                this.setState({todos: response.data});
+                this.setState({players: response.data});
             })
             .catch(function(error) {
                 console.log(error);
@@ -33,34 +29,32 @@ export default class TodosList extends Component {
     componentDidUpdate() {
         axios.get('http://localhost:4000/todos/')
             .then(response => {
-                this.setState({todos: response.data});
+                this.setState({players: response.data});
             })
             .catch(function(error) {
                 console.log(error);
             });
     }
 
-    todoList() {
-        return this.state.todos.map(function(currentTodo, i) {
-            return <Todo todo={currentTodo} key={i} />;
+    ranking() {
+        return this.state.players.map(function(currentPlayer, i) {
+            return <Player player={currentPlayer} key={i} />;
         });
     }
 
     render() {
         return (
             <div>
-                <h3>Todos List</h3>
+                <h3>Ranking</h3>
                 <table className='table table-striped' style={{ marginTop: 20}}>
                     <thead>
                         <tr>
-                            <th>Description</th>
-                            <th>Responsible</th>
-                            <th>Priority</th>
-                            <th>Actions</th>
+                            <th>Rank</th>
+                            <th>Player</th>
                         </tr>
                     </thead>
                     <tbody>
-                        { this.todoList() }
+                        { this.ranking() }
                     </tbody>
                 </table>
             </div>

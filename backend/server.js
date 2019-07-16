@@ -3,61 +3,59 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const todoRoutes = express.Router();
+const playerRoutes = express.Router();
 const PORT = 4000;
 
-let Todo = require('./todo.model');
+let Player = require('./player.model');
 
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
+mongoose.connect('mongodb://127.0.0.1:27017/players', { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once('open', function() {
     console.log('MongoDB database connection established successfully');
 });
 
-todoRoutes.route('/').get(function(req, res) {
-    Todo.find(function(err, todos) {
+playerRoutes.route('/').get(function(req, res) {
+    Player.find(function(err, players) {
         if (err) {
             console.log(err);
         } else {
-            res.json(todos);
+            res.json(players);
         }
     });
 });
 
-todoRoutes.route('/:id').get(function(req, res) {
+playerRoutes.route('/:id').get(function(req, res) {
     let id = req.params.id;
-    Todo.findById(id, function(err, todo) {
-        res.json(todo);
+    Player.findById(id, function(err, player) {
+        res.json(player);
     });
 });
 
-todoRoutes.route('/add').post(function(req, res) {
-    let todo = new Todo(req.body);
-    todo.save()
-        .then(todo => {
-            res.status(200).json({'todo': 'todo added successfully'});
+playerRoutes.route('/add').post(function(req, res) {
+    let player = new Player(req.body);
+    player.save()
+        .then(player => {
+            res.status(200).json({'player': 'player added successfully'});
         })
         .catch(err => {
-            res.status(400).send('adding new todo failed');
+            res.status(400).send('adding new player failed');
         });
 });
 
-todoRoutes.route('/update/:id').post(function(req, res) {
-    Todo.findById(req.params.id, function(err, todo) {
-        if (!todo) {
+playerRoutes.route('/update/:id').post(function(req, res) {
+    Player.findById(req.params.id, function(err, player) {
+        if (!player) {
             res.status(404).send('data is not found');
         } else {
-            todo.todo_description = req.body.todo_description;
-            todo.todo_responsible = req.body.todo_responsible;
-            todo.todo_priority = req.body.todo_priority;
-            todo.todo_completed = req.body.todo_completed;
+            player.name = req.body.name;
+            player.rank = req.body.rank;
 
-            todo.save().then(todo => {
-                res.json('Todo updated');
+            player.save().then(player => {
+                res.json('Player updated');
             })
             .catch(err => {
                 res.status(400).send('Update not possible');
@@ -66,7 +64,19 @@ todoRoutes.route('/update/:id').post(function(req, res) {
     });
 });
 
-app.use('/todos', todoRoutes);
+playerRoutes.route('/delete/:id').delete(function(req, res) {
+    Player.findByIdAndDelete(req.params.id, function(err, player) {
+        if (!player) return res.status(404).send('data is not found');
+        if (err) return res.status(400).send(err);  
+        const response = {
+            message: "Player successfully deleted",
+            id: player._id
+        };
+        return res.status(200).send(response);
+    });
+});
+
+app.use('/players', playerRoutes);
 
 app.listen(PORT, function() {
     console.log(`Server is running on PORT: ${PORT}`);
