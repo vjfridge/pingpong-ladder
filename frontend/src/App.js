@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CreateTodo from './components/create-todo.component';
-import EditTodo from './components/edit-todo.component';
+import CreatePlayer from './components/create-player.component';
+import EditPlayer from './components/edit-player.component';
 import HomePage from './components/home-page.component';
 
 import logo from './fridge-icon.png';
@@ -18,22 +18,22 @@ class App extends Component {
             <a className='navbar-brand' href='https://www.linkedin.com/in/victoria-fridge-4234b4ab' target='_blank'>
               <img src={logo} width='30' height='50' alt='Vickie Fridge LinkedIn' />
             </a>
-            <Link to='/' className='navbar-brand'>MERN-Stack Todo App</Link>
+            <Link to='/' className='navbar-brand'>Pingpong Ladder Tournament</Link>
             <div className='collapse navbar-collapse'>
               <ul className='navbar-nav mr-auto'>
                 <li className='navbar-item'>
-                  <Link to='/' className='nav-link'>Todos</Link>
+                  <Link to='/' className='nav-link'>Home</Link>
                 </li>
                 <li className='navbar-item'>
-                  <Link to='/create' className='nav-link'>Create Todo</Link>
+                  <Link to='/create' className='nav-link'>Create Player</Link>
                 </li>
               </ul>
             </div>
           </nav>
           <br/>
           <Route path='/' exact component={HomePage} />
-          <Route path='/edit/:id' component={EditTodo} />
-          <Route path='/create' component={CreateTodo} />
+          <Route path='/edit/:id' component={EditPlayer} />
+          <Route path='/create' component={CreatePlayer} />
         </div>
       </Router>
     );

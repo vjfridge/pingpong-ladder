@@ -4,8 +4,11 @@ import axios from 'axios';
 
 const Player = props => (
     <tr>
-        <td>{props.player.todo_description}</td>
-        <td>{props.player.todo_responsible}</td>
+        <td>{props.player.rank}</td>
+        <td>{props.player.name}</td>
+        <td>
+            <Link to={'/edit/'+props.player._id}>Edit</Link>
+        </td>
     </tr>
 )
 
@@ -17,7 +20,7 @@ export default class HomePage extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get('http://localhost:4000/players/')
             .then(response => {
                 this.setState({players: response.data});
             })
@@ -27,7 +30,7 @@ export default class HomePage extends Component {
     }
 
     componentDidUpdate() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get('http://localhost:4000/players/')
             .then(response => {
                 this.setState({players: response.data});
             })
@@ -51,6 +54,7 @@ export default class HomePage extends Component {
                         <tr>
                             <th>Rank</th>
                             <th>Player</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
