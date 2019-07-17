@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-const URL = process.env.URL || 'http://localhost:4000/';
+const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
 
 export default class EditPlayer extends Component {
 
