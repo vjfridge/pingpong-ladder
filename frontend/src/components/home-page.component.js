@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+const URL = process.env.URL || 'http://localhost:4000/';
 
 const Player = props => (
     <tr>
@@ -20,7 +21,7 @@ export default class HomePage extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/players/')
+        axios.get(URL+'players/')
             .then(response => {
                 this.setState({players: response.data});
             })
@@ -30,7 +31,7 @@ export default class HomePage extends Component {
     }
 
     componentDidUpdate() {
-        axios.get('http://localhost:4000/players/')
+        axios.get(URL+'players/')
             .then(response => {
                 this.setState({players: response.data});
             })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+const URL = process.env.URL || 'http://localhost:4000/';
 
 export default class EditPlayer extends Component {
 
@@ -17,7 +18,7 @@ export default class EditPlayer extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/players/'+this.props.match.params.id)
+        axios.get(URL+'players/'+this.props.match.params.id)
             .then(response => {
                 this.setState({
                     name: response.data.name,
@@ -48,7 +49,7 @@ export default class EditPlayer extends Component {
             rank: this.state.rank
         };
 
-        axios.post('http://localhost:4000/players/update/'+this.props.match.params.id, editedPlayer)
+        axios.post(URL+'players/update/'+this.props.match.params.id, editedPlayer)
             .then(res => console.log(res.data));
         
         this.props.history.push('/');

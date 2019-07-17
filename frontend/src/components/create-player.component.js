@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+const URL = process.env.URL || 'http://localhost:4000/';
 
 export default class CreatePlayer extends Component {
 
@@ -35,7 +36,7 @@ export default class CreatePlayer extends Component {
             rank: this.state.rank
         };
 
-        axios.post('http://localhost:4000/players/add', newPlayer)
+        axios.post(URL+'players/add', newPlayer)
             .then(res => console.log(res.data));
 
         this.setState({
