@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import Select from 'react-select'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-console.log('process.env.REACT_APP_API_URL:'+process.env.REACT_APP_API_URL);
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
 console.log('URL:'+URL);
 
@@ -13,19 +13,44 @@ const Player = props => (
             <Link to={'/edit/'+props.player._id}>Edit</Link>
         </td>
     </tr>
-)
+);
+
+const Challenge = props => (
+    <tr>
+        <td>{props.challenge.p1Name}</td>
+        <td>{props.challenge.p2Name}</td>
+        <td>{props.challenge.winner}</td>
+        <td>
+            <Select options={[
+                { value: props.challenge.p1Name, label: props.challenge.p1Name },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' }
+            ]} />
+        </td>
+    </tr>
+);
 
 export default class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {players: []};
+        this.state = {
+            players: [], 
+            challenges: []
+        };
     }
 
     componentDidMount() {
         axios.get(URL+'players/')
             .then(response => {
                 this.setState({players: response.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        axios.get(URL+'challenges/')
+            .then(response => {
+                this.setState({challenges: response.data});
             })
             .catch(function(error) {
                 console.log(error);
@@ -40,18 +65,31 @@ export default class HomePage extends Component {
             .catch(function(error) {
                 console.log(error);
             });
+        axios.get(URL+'challenges/')
+            .then(response => {
+                this.setState({challenges: response.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
-    ranking() {
+    playersRanking() {
         return this.state.players.map(function(currentPlayer, i) {
             return <Player player={currentPlayer} key={i} />;
+        });
+    }
+
+    challengesList() {
+        return this.state.challenges.map(function(currentChallenge, i) {
+            return <Challenge challenge={currentChallenge} key={i} />;
         });
     }
 
     render() {
         return (
             <div>
-                <h3>Ranking</h3>
+                <h3>Leaderboard</h3>
                 <table className='table table-striped' style={{ marginTop: 20}}>
                     <thead>
                         <tr>
@@ -61,7 +99,20 @@ export default class HomePage extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.ranking() }
+                        { this.playersRanking() }
+                    </tbody>
+                </table>
+                <h3>Challenges</h3>
+                <table className='table table-striped' style={{ marginTop: 20}}>
+                    <thead>
+                        <tr>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { this.challengesList() }
                     </tbody>
                 </table>
             </div>
