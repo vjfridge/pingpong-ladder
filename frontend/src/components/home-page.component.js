@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const URL = process.env.URL || 'http://localhost:4000/';
+console.log('URL:'+URL);
 
 const Player = props => (
     <tr>
