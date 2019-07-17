@@ -5,10 +5,10 @@
   "main": "index.js",
   "keywords": [],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "cd frontend && react-scripts start",
+    "build": "cd frontend && react-scripts build",
+    "test": "cd frontend && react-scripts test",
+    "eject": "cd frontend && react-scripts eject"
   },
   "repository": {
     "type": "git",
