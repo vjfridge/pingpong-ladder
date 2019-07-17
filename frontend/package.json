@@ -34,5 +34,6 @@
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.12.0"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }

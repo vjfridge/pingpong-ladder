@@ -4,14 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const playerRoutes = express.Router();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
+const dbConnectionString = process.env.dbConnectionString || 'mongodb://127.0.0.1:27017/players';
+const path = require("path");
+require("dotenv").config();
 
 let Player = require('./player.model');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "frontend", "build")));
 
-mongoose.connect('mongodb://127.0.0.1:27017/players', { useNewUrlParser: true });
+mongoose.connect(dbConnectionString, { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once('open', function() {
@@ -77,6 +81,10 @@ playerRoutes.route('/delete/:id').delete(function(req, res) {
 });
 
 app.use('/players', playerRoutes);
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+});
 
 app.listen(PORT, function() {
     console.log(`Server is running on PORT: ${PORT}`);
