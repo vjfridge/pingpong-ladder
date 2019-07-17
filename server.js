@@ -5,8 +5,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const playerRoutes = express.Router();
 const PORT = process.env.PORT || 4000;
-console.log('process.env.MONGODB_URI:'+process.env.MONGODB_URI);
 const dbConnectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/players';
+console.log('dbConnectionString:'+dbConnectionString);
 const path = require("path");
 require("dotenv").config();
 
@@ -30,7 +30,7 @@ playerRoutes.route('/').get(function(req, res) {
         } else {
             res.json(players);
         }
-    });
+    }).sort({rank: 1}); //sort based on asending rank
 });
 
 playerRoutes.route('/:id').get(function(req, res) {
