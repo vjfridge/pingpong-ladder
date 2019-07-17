@@ -5,7 +5,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const playerRoutes = express.Router();
 const PORT = process.env.PORT || 4000;
-const dbConnectionString = process.env.dbConnectionString || 'mongodb://127.0.0.1:27017/players';
+console.log('process.env.MONGODB_URI:'+process.env.MONGODB_URI);
+const dbConnectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/players';
+console.log('dbConnectionString:'+dbConnectionString);
 const path = require("path");
 require("dotenv").config();
 
