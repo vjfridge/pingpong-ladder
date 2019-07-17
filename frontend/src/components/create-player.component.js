@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+console.log('process.env.URL:'+process.env.URL);
 const URL = process.env.URL || 'http://localhost:4000/';
 console.log('URL:'+URL);
 
