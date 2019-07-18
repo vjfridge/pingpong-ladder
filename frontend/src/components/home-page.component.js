@@ -59,22 +59,22 @@ export default class HomePage extends Component {
             });
     }
 
-    componentDidUpdate() {
-        axios.get(URL+'players/')
-            .then(response => {
-                this.setState({players: response.data});
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-        axios.get(URL+'challenges/')
-            .then(response => {
-                this.setState({challenges: response.data});
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-    }
+    // componentDidUpdate() {
+    //     axios.get(URL+'players/')
+    //         .then(response => {
+    //             this.setState({players: response.data});
+    //         })
+    //         .catch(function(error) {
+    //             console.log(error);
+    //         });
+    //     axios.get(URL+'challenges/')
+    //         .then(response => {
+    //             this.setState({challenges: response.data});
+    //         })
+    //         .catch(function(error) {
+    //             console.log(error);
+    //         });
+    // }
 
     playersRanking() {
         return this.state.players.map(function(currentPlayer, i) {
