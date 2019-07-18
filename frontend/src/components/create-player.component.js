@@ -13,7 +13,8 @@ export default class CreatePlayer extends Component {
 
         this.state = {
             name: '',
-            rank: ''
+            rank: '',
+            points: 1000
         }
     }
 
@@ -33,7 +34,8 @@ export default class CreatePlayer extends Component {
         e.preventDefault(); //prevent default submit behavior
         const newPlayer = {
             name: this.state.name,
-            rank: this.state.rank
+            rank: this.state.rank,
+            points: this.state.points
         };
 
         axios.post(URL+'players/add', newPlayer)

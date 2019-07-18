@@ -8,6 +8,9 @@ let Player = new Schema({
     rank: {
         type: Number
     },
+    points: {
+        type: Number
+    },
 });
 
 module.exports = mongoose.model('Player', Player);

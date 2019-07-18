@@ -60,6 +60,7 @@ playerRoutes.route('/update/:id').post(function(req, res) {
         } else {
             player.name = req.body.name;
             player.rank = req.body.rank;
+            player.points = req.body.points;
 
             player.save().then(player => {
                 res.json('Player updated');
@@ -90,9 +91,14 @@ challengeRoutes.route('/').get(async function(req, res) {
     //check for errors later?
     var frontendFormattedChallenges = [];
     for (var i = 0; i < challenges.length; i+=1) {
-        let p1 = await Player.findById(challenges[i].p1Name);
-        let p2 = await Player.findById(challenges[i].p2Name);
-        frontendFormattedChallenges.push({p1: p1, p2: p2, winner: challenges[i].winner});
+        let p1 = await Player.findById(challenges[i].p1_id);
+        let p2 = await Player.findById(challenges[i].p2_id);
+        frontendFormattedChallenges.push({
+            p1: p1, 
+            p2: p2, 
+            winner: challenges[i].winner,
+            _id: challenges[i]._id
+        });
     }
     res.json(frontendFormattedChallenges);
     //.sort({date: 1}); 
@@ -121,8 +127,8 @@ challengeRoutes.route('/update/:id').post(function(req, res) {
         if (!challenge) {
             res.status(404).send('data is not found');
         } else {
-            challenge.p1Name = req.body.p1Name;
-            challenge.p2Name = req.body.p2Name;
+            challenge.p1_id = req.body.p1_id;
+            challenge.p2_id = req.body.p2_id;
             challenge.winner = req.body.winner;
 
             challenge.save().then(challenge => {

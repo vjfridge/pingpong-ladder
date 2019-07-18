@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Challenge = new Schema({
-    p1Name: {
+    p1_id: {
         type: String
     },
-    p2Name: {
+    p2_id: {
         type: String
     },
     winner: {
