@@ -8,29 +8,33 @@ const Player = props => (
     <tr>
         <td>{props.player.rank}</td>
         <td>{props.player.name}</td>
+        <td>{props.player.points}</td>
         <td>
             <Link to={'/edit/'+props.player._id}>Edit</Link>
         </td>
     </tr>
 );
 
-const Challenge = props => (
-    <tr>
-        <td>{props.challenge.p1.name}</td>
-        <td>{props.challenge.p2.name}</td>
-        
-        <td>
-            <Select 
-                defaultValue={(props.challenge.winner == null)? { value: null, label: 'Pending...' } : { value: props.challenge.winner, label: props.challenge.winner }}
-                onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
-                options={[
-                    { value: null, label: 'Pending...' },
-                    { value: props.challenge.p1.name, label: props.challenge.p1.name },
-                    { value: props.challenge.p2.name, label: props.challenge.p2.name }
-                ]} />
-        </td>
-    </tr>
-);
+const Challenge = props => {
+    console.log('challenge:'+JSON.stringify(props.challenge));
+    return (
+        <tr>
+            <td>{props.challenge.p1.name}</td>
+            <td>{props.challenge.p2.name}</td>
+            
+            <td>
+                <Select 
+                    defaultValue={(props.challenge.winner == null)? { value: null, label: 'Pending...' } : { value: props.challenge.winner, label: props.challenge.winner }}
+                    onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
+                    options={[
+                        { value: null, label: 'Pending...' },
+                        { value: props.challenge.p1, label: props.challenge.p1.name },
+                        { value: props.challenge.p2, label: props.challenge.p2.name }
+                    ]} />
+            </td>
+        </tr>
+    )
+};
 
 export default class HomePage extends Component {
 
@@ -62,10 +66,49 @@ export default class HomePage extends Component {
             });
     }
 
+    updatePlayerPoints(e, currentChallenge) {
+        var p1WinValue = (e.value._id === currentChallenge.p1._id)? 1:0; // 1 means that player1 won, 0 means they lost
+
+        var p1OrigPoints = currentChallenge.p1.points;
+        var p2OrigPoints = currentChallenge.p2.points;
+
+        var p1WinProbability = (1.0 / (1.0 + Math.pow(10, ((p1OrigPoints - p2OrigPoints) / 400))));
+        var p2WinProbability = (1.0 / (1.0 + Math.pow(10, ((p2OrigPoints - p1OrigPoints) / 400))));
+
+        /* K is a constant. If K is of a lower value, then the rating is changed by a small 
+        fraction but if K is of a higher value, then the changes in the rating are significant. 
+        Different organizations set a different value of K. */
+        var K = 30;
+
+        var p1NewPoints = p1OrigPoints + K*(p1WinValue - p1WinProbability);
+        var p2NewPoints = p2OrigPoints + K*((1-p1WinValue) - p2WinProbability);
+
+        const editedP1 = {
+            name: currentChallenge.p1.name,
+            rank: currentChallenge.p1.rank,
+            points: p1NewPoints
+        };
+
+        const editedP2 = {
+            name: currentChallenge.p2.name,
+            rank: currentChallenge.p2.rank,
+            points: p2NewPoints
+        };
+
+        console.log('editedP1+'+JSON.stringify(editedP1));
+        axios.post(URL+'players/update/'+currentChallenge.p1._id, editedP1)
+            .then(res => console.log(res.data));
+
+        axios.post(URL+'players/update/'+currentChallenge.p2._id, editedP2)
+            .then(res => console.log(res.data));
+    }
+
     onChangeChallengeWinner(e, currentChallenge) {
+        this.updatePlayerPoints(e, currentChallenge);
+
         const editedChallenge = {
-            p1Name: currentChallenge.p1Name,
-            p2Name: currentChallenge.p2Name,
+            p1_id: currentChallenge.p1._id,
+            p2_id: currentChallenge.p2._id,
             winner: e.value
         };
         
@@ -98,6 +141,7 @@ export default class HomePage extends Component {
                         <tr>
                             <th>Rank</th>
                             <th>Player</th>
+                            <th>Points</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

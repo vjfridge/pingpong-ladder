@@ -13,7 +13,8 @@ export default class EditPlayer extends Component {
 
         this.state = {
             name: '',
-            rank: ''
+            rank: '',
+            points: ''
         }
     }
 
@@ -22,7 +23,8 @@ export default class EditPlayer extends Component {
             .then(response => {
                 this.setState({
                     name: response.data.name,
-                    rank: response.data.rank
+                    rank: response.data.rank,
+                    points: response.data.points
                 });
             })
             .catch(function(error) {
@@ -46,7 +48,8 @@ export default class EditPlayer extends Component {
         e.preventDefault();
         const editedPlayer = {
             name: this.state.name,
-            rank: this.state.rank
+            rank: this.state.rank,
+            points: this.state.points
         };
 
         axios.post(URL+'players/update/'+this.props.match.params.id, editedPlayer)
