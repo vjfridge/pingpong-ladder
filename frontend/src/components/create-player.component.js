@@ -8,12 +8,10 @@ export default class CreatePlayer extends Component {
         super(props);
 
         this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeRank = this.onChangeRank.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             name: '',
-            rank: '',
             points: 1000
         }
     }
@@ -24,17 +22,10 @@ export default class CreatePlayer extends Component {
         });
     }
 
-    onChangeRank(e) {
-        this.setState({
-            rank: e.target.value
-        });
-    }
-
     onSubmit(e) {
         e.preventDefault(); //prevent default submit behavior
         const newPlayer = {
             name: this.state.name,
-            rank: this.state.rank,
             points: this.state.points
         };
 
@@ -43,7 +34,6 @@ export default class CreatePlayer extends Component {
 
         this.setState({
             name: '',
-            rank: ''
         });
     }
 
@@ -58,15 +48,6 @@ export default class CreatePlayer extends Component {
                                 className="form-control"
                                 value={this.state.name}
                                 onChange={this.onChangeName}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>Rank: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.rank}
-                                onChange={this.onChangeRank}
                                 />
                     </div>
                     <div className="form-group">

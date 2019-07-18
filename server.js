@@ -32,7 +32,7 @@ playerRoutes.route('/').get(function(req, res) {
         } else {
             res.json(players);
         }
-    }).sort({rank: 1}); //sort based on asending rank
+    }).sort({points: -1}); //sort based on desending points
 });
 
 playerRoutes.route('/:id').get(function(req, res) {
@@ -59,7 +59,6 @@ playerRoutes.route('/update/:id').post(function(req, res) {
             res.status(404).send('data is not found');
         } else {
             player.name = req.body.name;
-            player.rank = req.body.rank;
             player.points = req.body.points;
 
             player.save().then(player => {

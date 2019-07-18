@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
 
-const Player = props => (
+const Player = (props) => (
     <tr>
-        <td>{props.player.rank}</td>
+        <td>{props.i}</td>
         <td>{props.player.name}</td>
         <td>{props.player.points}</td>
         <td>
@@ -91,13 +91,11 @@ export default class HomePage extends Component {
 
         const editedP1 = {
             name: currentChallenge.p1.name,
-            rank: currentChallenge.p1.rank,
             points: p1NewPoints
         };
 
         const editedP2 = {
             name: currentChallenge.p2.name,
-            rank: currentChallenge.p2.rank,
             points: p2NewPoints
         };
 
@@ -127,7 +125,7 @@ export default class HomePage extends Component {
 
     playersRanking() {
         return this.state.players.map(function(currentPlayer, i) {
-            return <Player player={currentPlayer} key={i} />;
+            return <Player player={currentPlayer} i={i} key={i} />;
         });
     }
 

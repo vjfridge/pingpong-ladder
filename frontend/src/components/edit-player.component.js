@@ -8,12 +8,10 @@ export default class EditPlayer extends Component {
         super(props);
 
         this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeRank = this.onChangeRank.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             name: '',
-            rank: '',
             points: ''
         }
     }
@@ -23,7 +21,6 @@ export default class EditPlayer extends Component {
             .then(response => {
                 this.setState({
                     name: response.data.name,
-                    rank: response.data.rank,
                     points: response.data.points
                 });
             })
@@ -38,17 +35,10 @@ export default class EditPlayer extends Component {
         });
     }
 
-    onChangeRank(e) {
-        this.setState({
-            rank: e.target.value
-        });
-    }
-
     onSubmit(e) {
         e.preventDefault();
         const editedPlayer = {
             name: this.state.name,
-            rank: this.state.rank,
             points: this.state.points
         };
 
@@ -69,14 +59,6 @@ export default class EditPlayer extends Component {
                                 className='form-control'
                                 value={this.state.name}
                                 onChange={this.onChangeName}
-                                />
-                    </div>
-                    <div className='form-group'>
-                        <label>Rank: </label>
-                        <input type='text'
-                                className='form-control'
-                                value={this.state.rank}
-                                onChange={this.onChangeRank}
                                 />
                     </div>
                     <div className="form-group">

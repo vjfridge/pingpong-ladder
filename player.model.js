@@ -5,9 +5,6 @@ let Player = new Schema({
     name: {
         type: String
     },
-    rank: {
-        type: Number
-    },
     points: {
         type: Number
     },
