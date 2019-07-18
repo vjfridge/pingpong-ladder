@@ -17,21 +17,27 @@ const Player = props => (
 
 const Challenge = props => {
     console.log('challenge:'+JSON.stringify(props.challenge));
+    var winner;
+    if(props.challenge.winner == null) {
+        winner = (<td>
+            <Select 
+                defaultValue={{ value: null, label: 'Pending...' }}
+                onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
+                options={[
+                    { value: null, label: 'Pending...' },
+                    { value: props.challenge.p1, label: props.challenge.p1.name },
+                    { value: props.challenge.p2, label: props.challenge.p2.name }
+                ]} />
+        </td>);
+    } else {
+        var winnerName = (props.challenge.winner == props.challenge.p1._id)? props.challenge.p1.name : props.challenge.p2.name;
+        winner = <td>{winnerName}</td>;
+    }
     return (
         <tr>
             <td>{props.challenge.p1.name}</td>
             <td>{props.challenge.p2.name}</td>
-            
-            <td>
-                <Select 
-                    defaultValue={(props.challenge.winner == null)? { value: null, label: 'Pending...' } : { value: props.challenge.winner, label: props.challenge.winner }}
-                    onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
-                    options={[
-                        { value: null, label: 'Pending...' },
-                        { value: props.challenge.p1, label: props.challenge.p1.name },
-                        { value: props.challenge.p2, label: props.challenge.p2.name }
-                    ]} />
-            </td>
+            {winner}
         </tr>
     )
 };
