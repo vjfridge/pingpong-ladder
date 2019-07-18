@@ -83,6 +83,16 @@ playerRoutes.route('/delete/:id').delete(function(req, res) {
     });
 });
 
+playerRoutes.route('/delete').delete(function(req, res) {
+    Player.deleteMany({}, function(err, players) {
+        if (err) return res.status(400).send(err); 
+        const response = {
+            message: "Players successfully deleted",
+        };
+        return res.status(200).send(response);
+    });
+});
+
 app.use('/players', playerRoutes);
 
 challengeRoutes.route('/').get(async function(req, res) {
@@ -147,6 +157,16 @@ challengeRoutes.route('/delete/:id').delete(function(req, res) {
         const response = {
             message: "Challenge successfully deleted",
             id: challenge._id
+        };
+        return res.status(200).send(response);
+    });
+});
+
+challengeRoutes.route('/delete').delete(function(req, res) {
+    Challenge.deleteMany({}, function(err, challenges) {
+        if (err) return res.status(400).send(err); 
+        const response = {
+            message: "Challenges successfully deleted",
         };
         return res.status(200).send(response);
     });
