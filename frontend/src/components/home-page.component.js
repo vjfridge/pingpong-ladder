@@ -16,7 +16,6 @@ const Player = (props) => (
 );
 
 const Challenge = props => {
-    console.log('challenge:'+JSON.stringify(props.challenge));
     var winner;
     if(props.challenge.winner == null) {
         winner = (<td>
@@ -30,7 +29,7 @@ const Challenge = props => {
                 ]} />
         </td>);
     } else {
-        var winnerName = (props.challenge.winner == props.challenge.p1._id)? props.challenge.p1.name : props.challenge.p2.name;
+        var winnerName = (props.challenge.winner === props.challenge.p1._id)? props.challenge.p1.name : props.challenge.p2.name;
         winner = <td>{winnerName}</td>;
     }
     return (
