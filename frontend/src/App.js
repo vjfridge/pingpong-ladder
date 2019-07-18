@@ -7,6 +7,7 @@ import CreateChallenge from './components/create-challenge.component';
 import CreatePlayer from './components/create-player.component';
 import EditPlayer from './components/edit-player.component';
 import HomePage from './components/home-page.component';
+import Login from './components/login'
 
 import logo from './fridge-icon.png';
 
@@ -84,6 +85,7 @@ class App extends Component {
           <Route path='/edit/:id' component={EditPlayer} />
           <Route path='/create/player' component={CreatePlayer} />
           <Route path='/create/challenge' component={CreateChallenge} />
+          <Route path='/auth/google' component={Login} />
         </div>
       </Router>
     );
