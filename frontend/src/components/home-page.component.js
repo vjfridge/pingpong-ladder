@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from 'react-select'
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
@@ -16,8 +16,8 @@ const Player = props => (
 
 const Challenge = props => (
     <tr>
-        <td>{props.challenge.p1Name}</td>
-        <td>{props.challenge.p2Name}</td>
+        <td>{props.challenge.p1.name}</td>
+        <td>{props.challenge.p2.name}</td>
         
         <td>
             <Select 
@@ -25,8 +25,8 @@ const Challenge = props => (
                 onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
                 options={[
                     { value: null, label: 'Pending...' },
-                    { value: props.challenge.p1Name, label: props.challenge.p1Name },
-                    { value: props.challenge.p2Name, label: props.challenge.p2Name }
+                    { value: props.challenge.p1.name, label: props.challenge.p1.name },
+                    { value: props.challenge.p2.name, label: props.challenge.p2.name }
                 ]} />
         </td>
     </tr>

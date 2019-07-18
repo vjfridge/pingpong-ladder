@@ -85,14 +85,17 @@ playerRoutes.route('/delete/:id').delete(function(req, res) {
 
 app.use('/players', playerRoutes);
 
-challengeRoutes.route('/').get(function(req, res) {
-    Challenge.find(function(err, challenges) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(challenges);
-        }
-    });//.sort({date: 1}); 
+challengeRoutes.route('/').get(async function(req, res) {
+    var challenges = await Challenge.find();
+    //check for errors later?
+    var frontendFormattedChallenges = [];
+    for (var i = 0; i < challenges.length; i+=1) {
+        let p1 = await Player.findById(challenges[i].p1Name);
+        let p2 = await Player.findById(challenges[i].p2Name);
+        frontendFormattedChallenges.push({p1: p1, p2: p2, winner: challenges[i].winner});
+    }
+    res.json(frontendFormattedChallenges);
+    //.sort({date: 1}); 
 });
 
 challengeRoutes.route('/:id').get(function(req, res) {
