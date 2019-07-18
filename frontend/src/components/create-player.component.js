@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-console.log('process.env.REACT_APP_API_URL:'+process.env.REACT_APP_API_URL);
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
-console.log('URL:'+URL);
 
 export default class CreatePlayer extends Component {
 

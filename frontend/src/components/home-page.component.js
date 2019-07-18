@@ -3,7 +3,6 @@ import Select from 'react-select'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/';
-console.log('URL:'+URL);
 
 const Player = props => (
     <tr>
@@ -22,7 +21,8 @@ const Challenge = props => (
         
         <td>
             <Select 
-                defaultValue={{ value: null, label: 'Pending...' }}
+                defaultValue={(props.challenge.winner == null)? { value: null, label: 'Pending...' } : { value: props.challenge.winner, label: props.challenge.winner }}
+                onChange={e => {props.this_HomePage.onChangeChallengeWinner(e, props.challenge)}}
                 options={[
                     { value: null, label: 'Pending...' },
                     { value: props.challenge.p1Name, label: props.challenge.p1Name },
@@ -36,6 +36,9 @@ export default class HomePage extends Component {
 
     constructor(props) {
         super(props);
+
+        this.onChangeChallengeWinner = this.onChangeChallengeWinner.bind(this);
+
         this.state = {
             players: [], 
             challenges: []
@@ -59,22 +62,19 @@ export default class HomePage extends Component {
             });
     }
 
-    // componentDidUpdate() {
-    //     axios.get(URL+'players/')
-    //         .then(response => {
-    //             this.setState({players: response.data});
-    //         })
-    //         .catch(function(error) {
-    //             console.log(error);
-    //         });
-    //     axios.get(URL+'challenges/')
-    //         .then(response => {
-    //             this.setState({challenges: response.data});
-    //         })
-    //         .catch(function(error) {
-    //             console.log(error);
-    //         });
-    // }
+    onChangeChallengeWinner(e, currentChallenge) {
+        const editedChallenge = {
+            p1Name: currentChallenge.p1Name,
+            p2Name: currentChallenge.p2Name,
+            winner: e.value
+        };
+        
+        axios.post(URL+'challenges/update/'+currentChallenge._id, editedChallenge)
+            .then(res => {
+                console.log(res.data);
+                window.location.reload();
+            });
+    }
 
     playersRanking() {
         return this.state.players.map(function(currentPlayer, i) {
@@ -82,13 +82,14 @@ export default class HomePage extends Component {
         });
     }
 
-    challengesList() {
+    challengesList(this_HomePage) {
         return this.state.challenges.map(function(currentChallenge, i) {
-            return <Challenge challenge={currentChallenge} key={i} />;
+            return <Challenge challenge={currentChallenge} key={i} this_HomePage={this_HomePage} />
         });
     }
 
     render() {
+        const this_HomePage = this;
         return (
             <div>
                 <h3>Leaderboard</h3>
@@ -114,7 +115,7 @@ export default class HomePage extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.challengesList() }
+                        { this.challengesList(this_HomePage) }
                     </tbody>
                 </table>
             </div>
