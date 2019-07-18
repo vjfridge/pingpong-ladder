@@ -19,13 +19,15 @@ const Challenge = props => (
     <tr>
         <td>{props.challenge.p1Name}</td>
         <td>{props.challenge.p2Name}</td>
-        <td>{props.challenge.winner}</td>
+        
         <td>
-            <Select options={[
-                { value: props.challenge.p1Name, label: props.challenge.p1Name },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' }
-            ]} />
+            <Select 
+                defaultValue={{ value: null, label: 'Pending...' }}
+                options={[
+                    { value: null, label: 'Pending...' },
+                    { value: props.challenge.p1Name, label: props.challenge.p1Name },
+                    { value: props.challenge.p2Name, label: props.challenge.p2Name }
+                ]} />
         </td>
     </tr>
 );
